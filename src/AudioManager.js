@@ -17,7 +17,7 @@ define(function(require){
     getPromise: function(key){
       var deferred = new $.Deferred();
       // Fake loading by creating noise buffer.
-      var buffer = this.context.createBuffer(1, 44100, 44100);
+      var buffer = this.audioContext.createBuffer(1, 44100, 44100);
       var data = buffer.getChannelData(0);
       for (i = 0; i < data.length; i++) {
         data[i] = 0;
