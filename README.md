@@ -1,4 +1,4 @@
-# Modular Marionette Boilerplate
+# musikata.audioManager
 
-For creating AMD-modular marionette applications with require.js, and testing with Karma.
+Provides a service interface to Web Audio API
 
