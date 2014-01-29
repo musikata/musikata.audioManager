@@ -9,6 +9,11 @@ define(function(require){
   };
 
   _.extend(AudioManager.prototype, Backbone.Events, {
+
+    getCurrentTime: function(){
+      return this.audioContext.currentTime;
+    },
+
     getPromise: function(key){
       var deferred = new $.Deferred();
       // Fake loading by creating noise buffer.
@@ -26,7 +31,8 @@ define(function(require){
         deferred.resolve(buffer);
       }
       return deferred.promise();
-    }
+    },
+
   });
 
   return AudioManager;
