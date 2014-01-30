@@ -3,7 +3,8 @@
 // confusing Karma with missing AMD dependencies.
 
 var specFiles = [
-  'AudioManager.spec.js'
+  'AudioManager.spec.js',
+  'marimba.mp3'
 ];
 
 // Prefix specs with specsDir.
