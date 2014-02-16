@@ -1,8 +1,9 @@
 define(function(require){
-  // Setup audio context initially (one context per window).
+  // Re-use context if it alread exists.
   if (window._AudioContext){
     return window._AudioContext;
   }
+  // Otherwise do initial setup.
 
   /* Copyright 2013 Chris Wilson
 
@@ -142,4 +143,5 @@ limitations under the License.
   }(window));
   var _AudioContext = window.AudioContext;
   window._AudioContext = new _AudioContext();
+  return window._AudioContext;
 });
