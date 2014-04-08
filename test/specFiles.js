@@ -4,7 +4,8 @@
 
 var specFiles = [
   'AudioManager.spec.js',
-  'marimba.mp3'
+  'marimba.mp3',
+  'Base64Sample.js'
 ];
 
 // Prefix specs with specsDir.

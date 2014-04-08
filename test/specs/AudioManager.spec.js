@@ -2,6 +2,7 @@ define(function(require){
   var $ = require('jquery');
   var AudioManager = require("audioManager/AudioManager");
   var AudioContext = require("audioManager/AudioContext");
+  var Base64Sample = require("./Base64Sample");
 
   // Wait for timer to start for chrome.
   AudioContext.createGain();
@@ -69,24 +70,48 @@ define(function(require){
         });
       });
 
-      it("should be able to load samples", function(){
-        var promise;
-        runs(function(){
-          var sample = {
-            id: 'testSample',
-            url: require.toUrl('./marimba.mp3')
-          };
-          promise = audioManager.loadSample(sample);
+      describe('loading samples', function(){
+
+        it("should be able to load samples from url", function(){
+          var promise;
+          runs(function(){
+            var sample = {
+              id: 'testSample',
+              url: require.toUrl('./marimba.mp3')
+            };
+            promise = audioManager.loadSample(sample);
+          });
+
+          waitsFor(function(){
+            return (promise.state() === 'resolved');
+          });
+
+          runs(function(){
+            var sample = audioManager.getSample('testSample');
+            expect(sample.buffer).toBeDefined();
+          })
         });
 
-        waitsFor(function(){
-          return (promise.state() === 'resolved');
+        it("should be able to load samples from base 64 string", function(){
+          var promise;
+          runs(function(){
+            var sample = {
+              id: 'testSample',
+              base64: Base64Sample
+            };
+            promise = audioManager.loadSample(sample);
+          });
+
+          waitsFor(function(){
+            return (promise.state() === 'resolved');
+          });
+
+          runs(function(){
+            var sample = audioManager.getSample('testSample');
+            expect(sample.buffer).toBeDefined();
+          })
         });
 
-        runs(function(){
-          var sample = audioManager.getSample('testSample');
-          expect(sample.buffer).toBeDefined();
-        })
       });
 
       it("should be able to get source for sample", function(){

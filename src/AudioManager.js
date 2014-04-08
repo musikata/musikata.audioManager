@@ -2,6 +2,7 @@ define(function(require){
   var $ = require('jquery');
   var _ = require('underscore');
   var Backbone = require('backbone');
+  var Base64Utils = require('./Base64Utils');
 
   // Constructor.
   var AudioManager = function(options){
@@ -72,20 +73,30 @@ define(function(require){
       var loadDeferred = new $.Deferred();
       _sample.loadPromise = loadDeferred.promise();
 
+      // URL
       if (_sample.url){
         var request = new XMLHttpRequest();
         request.open('GET', sample.url, true);
         request.responseType = 'arraybuffer';
 
-        // Decode asynchronously
+        // Fetch and decode asynchronously
         var _this = this;
         request.onload = function(){
-          _this.audioContext.decodeAudioData(request.response, function(buffer){
-            _sample.buffer = buffer;
+          _this.audioContext.decodeAudioData(request.response, function(audioBuffer){
+            _sample.buffer = audioBuffer;
             loadDeferred.resolve();
           }, loadDeferred.reject);
         }
         request.send();
+      } 
+      // Base64
+      else if (_sample.base64){
+        // Decode asynchronously.
+        var arrayBuffer = Base64Utils.base64DecToArr(_sample.base64).buffer;
+        this.audioContext.decodeAudioData(arrayBuffer, function(audioBuffer){
+          _sample.buffer = audioBuffer;
+          loadDeferred.resolve();
+        }, loadDeferred.reject);
       }
 
       return _sample.loadPromise;
